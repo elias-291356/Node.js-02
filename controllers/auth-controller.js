@@ -70,6 +70,7 @@ const signout = async (req, res) => {
     message: "Signout success",
   });
 };
+
 const updateAvatar = async (req, res) => {
   const avatarsPath = path.resolve("public", "avatars");
 
@@ -78,6 +79,9 @@ const updateAvatar = async (req, res) => {
   const avatarName = `${_id}_${filename}`;
   const resultUpload = path.join(avatarsPath, avatarName);
   await fs.rename(oldPath, resultUpload);
+
+  const avatarImage = await Jimp.read(resultUpload);
+  await avatarImage.resize(250, 250).write(resultUpload);
 
   const avatarURL = path.join("avatars", avatarName);
   await User.findByIdAndUpdate(_id, { avatarURL });
