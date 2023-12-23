@@ -5,7 +5,8 @@ import {
   isEmptyBody,
   isValidId,
   isEmptyBodyFavorite,
-  authenticate
+  authenticate,
+  upload,
 } from "../../middleware/index.js";
 import {
   contactAddSchema,
