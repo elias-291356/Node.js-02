@@ -4,6 +4,33 @@ import cors from "cors";
 import router from "./routes/api/contacts-router.js";
 import authRouter from "./routes/api/auth-router.js";
 import detenv from "dotenv";
+import nodemailer from "nodemailer";
+const { GMAIL_PASSWORD, GMAIL_FROM } = process.env;
+
+const nodemailerConfig = {
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: GMAIL_FROM,
+    pass: GMAIL_PASSWORD,
+  },
+};
+
+const transport = nodemailer.createTransport(nodemailerConfig);
+
+const email = {
+  from: GMAIL_FROM,
+  to: "gomohit491@wikfee.com",
+  subject: "Test email",
+  html: "<strong>Test email</strong>",
+};
+
+transport
+  .sendMail(email)
+  .then(() => console.log("Email send success"))
+  .catch((error) => console.log(error.message));
+
 detenv.config();
 const app = express();
 
